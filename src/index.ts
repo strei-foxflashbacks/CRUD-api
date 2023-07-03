@@ -12,25 +12,27 @@ const port = process.env.PORT;
 const UUIDReg = new RegExp(/\/api\/users\/[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}/);
 
 const app = createServer((req, res) => {
-  if (req.url === '/' && req.method === 'GET') {
+  const { url, method } = req;
+
+  if (url === '/' && method === 'GET') {
     res.writeHead(200, { 'Content-Type': 'text/plain' })
       .end('What are you waiting for? Choose a route!');
   }
-  if (req.url === '/api/users' && req.method === 'GET') {
+  if (url === '/api/users' && method === 'GET') {
     getUsers(req, res);
-  } else if (req.url?.match(UUIDReg) && req.method === 'GET'
+  } else if (url?.match(UUIDReg) && method === 'GET'
   ) {
-    const id = req.url.split('/')[3];
+    const id = url.split('/')[3];
     getUser(req, res, id);
-  } else if (req.url === '/api/users' && req.method === 'POST') {
+  } else if (url === '/api/users' && method === 'POST') {
     createUser(req, res);
-  } else if (req.url?.match(UUIDReg) && req.method === 'PUT'
+  } else if (url?.match(UUIDReg) && method === 'PUT'
   ) {
-    const id = req.url.split('/')[3];
+    const id = url.split('/')[3];
     updateUser(req, res, id);
-  } else if (req.url?.match(UUIDReg) && req.method === 'DELETE'
+  } else if (url?.match(UUIDReg) && method === 'DELETE'
   ) {
-    const id = req.url.split('/')[3];
+    const id = url.split('/')[3];
     deleteUser(req, res, id);
   } else {
     res.writeHead(404, { 'Content-Type': 'text/plain' })
