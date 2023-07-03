@@ -4,6 +4,7 @@ import process from 'process';
 import { createServer } from 'node:http';
 import getUsers from './controllers/getUsers';
 import getUser from './controllers/getUser';
+import createUser from './controllers/createUser';
 
 const port = process.env.PORT;
 
@@ -21,7 +22,9 @@ const app = createServer((req, res) => {
   ) {
     const id = req.url.split('/')[3];
     getUser(req, res, id);
-  } else {
+  } else if (req.url === '/api/users' && req.method === 'POST') {
+    createUser(req, res);
+  }  else {
     res.writeHead(404, { 'Content-Type': 'text/plain' })
       .end('Not Found! 😭');
   }

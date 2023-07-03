@@ -1,4 +1,6 @@
-const users = [
+import { User } from '../types/User';
+
+const users: User[] = [
   {
     id: '1d4f2b12-9518-4e35-8eaf-68a7bde6fadc',
     username: 'john_doe',
