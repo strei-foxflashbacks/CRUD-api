@@ -1,8 +1,8 @@
 import users from '../database/users';
 
-const find = () => {
+const findAll = () => {
   return new Promise((resolve) => {
     resolve(users);
   });
 };
-export default find;
+export default findAll;

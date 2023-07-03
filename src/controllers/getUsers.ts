@@ -1,4 +1,4 @@
-import find from '../models/model';
+import find from '../models/findAll';
 import { IncomingMessage, ServerResponse } from 'http';
 
 const getUsers = async (req: IncomingMessage, res: ServerResponse) => {
@@ -8,7 +8,8 @@ const getUsers = async (req: IncomingMessage, res: ServerResponse) => {
     res.writeHead(200, { 'Content-Type': 'application/json' })
       .end(JSON.stringify(users));
   } catch (error) {
-    console.log(error);
+    res.writeHead(500, { 'Content-Type': 'plain/text' })
+      .end('Something went wrong from the server');
   }
 };
 export default getUsers;
