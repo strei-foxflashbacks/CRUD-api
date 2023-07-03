@@ -9,6 +9,7 @@ import updateUser from './controllers/updateUser';
 import deleteUser from './controllers/deleteUser';
 
 const port = process.env.PORT;
+const UUIDReg = new RegExp(/\/api\/users\/[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}/);
 
 const app = createServer((req, res) => {
   if (req.url === '/' && req.method === 'GET') {
@@ -17,26 +18,17 @@ const app = createServer((req, res) => {
   }
   if (req.url === '/api/users' && req.method === 'GET') {
     getUsers(req, res);
-  } else if (req.url?.match(
-    /\/api\/users\/[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}/)
-      &&
-      req.method === 'GET'
+  } else if (req.url?.match(UUIDReg) && req.method === 'GET'
   ) {
     const id = req.url.split('/')[3];
     getUser(req, res, id);
   } else if (req.url === '/api/users' && req.method === 'POST') {
     createUser(req, res);
-  } else if (req.url?.match(
-    /\/api\/users\/[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}/)
-      &&
-      req.method === 'PUT'
+  } else if (req.url?.match(UUIDReg) && req.method === 'PUT'
   ) {
     const id = req.url.split('/')[3];
     updateUser(req, res, id);
-  } else if (req.url?.match(
-    /\/api\/users\/[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}/)
-      &&
-      req.method === 'DELETE'
+  } else if (req.url?.match(UUIDReg) && req.method === 'DELETE'
   ) {
     const id = req.url.split('/')[3];
     deleteUser(req, res, id);
