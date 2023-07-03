@@ -3,10 +3,11 @@ dotenv.config();
 import process from 'process';
 import { createServer } from 'node:http';
 import routes from './routes/routes';
+import { RequestParams } from './types/RequestParams';
 
 const port = process.env.PORT;
 
-const app = createServer((req, res) => {
+const app = createServer((req: RequestParams, res) => {
   const { url, method } = req;
 
   const route = routes[url!];
@@ -17,15 +18,15 @@ const app = createServer((req, res) => {
     if (routeHandler) {
       routeHandler(req, res);
     } else {
-      res.statusCode = 405;
-      res.setHeader('Allow', Object.keys(route).join(', '));
-      res.setHeader('Content-Type', 'text/plain');
-      res.end('Method Not Allowed! 😠');
+      res.writeHead(405, {
+        'Allow': Object.keys(route).join(', '),
+        'Content-Type':  'text/plain',
+      })
+        .end('Method Not Allowed! 😠');
     }
   } else {
-    res.statusCode = 404;
-    res.setHeader('Content-Type', 'text/plain');
-    res.end('Not Found! 😭');
+    res.writeHead(404, { 'Content-Type': 'text/plain' })
+      .end('Not Found! 😭');
   }
 });
 

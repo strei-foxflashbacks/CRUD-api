@@ -4,16 +4,14 @@ import { Routes } from '../types/Routes';
 const routes: Routes = {
   '/': {
     'GET': (req, res) => {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'text/plain');
-      res.end('What are you waiting for? Choose a route!');
+      res.writeHead(200, { 'Content-Type': 'text/plain' })
+        .end('What are you waiting for? Choose a route!');
     },
   },
   '/api/users': {
     'GET': (req, res) => {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json');
-      res.end(JSON.stringify(users));
+      res.writeHead(200, { 'Content-Type': 'application/json' })
+        .end(JSON.stringify(users));
     },
   },
 };

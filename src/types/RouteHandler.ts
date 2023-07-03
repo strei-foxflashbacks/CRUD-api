@@ -1,5 +1,6 @@
-import { IncomingMessage, ServerResponse } from 'http';
+import { ServerResponse } from 'http';
+import { RequestParams } from './RequestParams';
 
 export interface RouteHandler {
-  (req: IncomingMessage, res: ServerResponse): void;
+  (req: RequestParams, res: ServerResponse): void;
 }
