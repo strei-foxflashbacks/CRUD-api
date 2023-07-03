@@ -13,8 +13,9 @@ const getUser = async (req: IncomingMessage, res: ServerResponse, id: string) =>
         .end('No such user! 😠');
     }
 
-  } catch (error) {
-    console.log(error);
+  } catch {
+    res.writeHead(500, { 'Content-Type': 'plain/text' })
+      .end('Something went wrong from the server 🤔');
   }
 };
 export default getUser;
