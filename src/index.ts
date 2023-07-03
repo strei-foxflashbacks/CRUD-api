@@ -9,10 +9,19 @@ const port = process.env.PORT;
 const app = createServer((req, res) => {
   const { url, method } = req;
 
-  const routeHandler = routes[url!];
+  const route = routes[url!];
 
-  if (routeHandler && method === 'GET') {
-    routeHandler(req, res);
+  if (route) {
+    const routeHandler = route[method!];
+
+    if (routeHandler) {
+      routeHandler(req, res);
+    } else {
+      res.statusCode = 405;
+      res.setHeader('Allow', Object.keys(route).join(', '));
+      res.setHeader('Content-Type', 'text/plain');
+      res.end('Method Not Allowed');
+    }
   } else {
     res.statusCode = 404;
     res.setHeader('Content-Type', 'text/plain');
