@@ -5,6 +5,8 @@ import { createServer } from 'node:http';
 import getUsers from './controllers/getUsers';
 import getUser from './controllers/getUser';
 import createUser from './controllers/createUser';
+import updateUser from './controllers/updateUser';
+import deleteUser from './controllers/deleteUser';
 
 const port = process.env.PORT;
 
@@ -24,7 +26,21 @@ const app = createServer((req, res) => {
     getUser(req, res, id);
   } else if (req.url === '/api/users' && req.method === 'POST') {
     createUser(req, res);
-  }  else {
+  } else if (req.url?.match(
+    /\/api\/users\/[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}/)
+      &&
+      req.method === 'PUT'
+  ) {
+    const id = req.url.split('/')[3];
+    updateUser(req, res, id);
+  } else if (req.url?.match(
+    /\/api\/users\/[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}/)
+      &&
+      req.method === 'DELETE'
+  ) {
+    const id = req.url.split('/')[3];
+    deleteUser(req, res, id);
+  } else {
     res.writeHead(404, { 'Content-Type': 'text/plain' })
       .end('Not Found! 😭');
   }
