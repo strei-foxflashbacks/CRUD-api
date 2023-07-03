@@ -20,7 +20,7 @@ const app = createServer((req, res) => {
       res.statusCode = 405;
       res.setHeader('Allow', Object.keys(route).join(', '));
       res.setHeader('Content-Type', 'text/plain');
-      res.end('Method Not Allowed');
+      res.end('Method Not Allowed! 😠');
     }
   } else {
     res.statusCode = 404;
