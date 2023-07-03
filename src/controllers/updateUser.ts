@@ -25,7 +25,7 @@ const updateUser = async (req: IncomingMessage, res: ServerResponse, id: string)
           .end(JSON.stringify(updatedUser));
       });
     } else {
-      res.writeHead(400, { 'Content-Type': 'plain/text' })
+      res.writeHead(404, { 'Content-Type': 'plain/text' })
         .end('No such user! 😠');
     }
   } catch {
